@@ -1,0 +1,19 @@
+const fs = require('fs').promises;
+const path = require('path');
+const TALKER_PATH = '../talker.json'
+
+const readTalkerFile = async () => {
+    try {
+        const talkerFile = await fs.readFile(path.resolve(__dirname, TALKER_PATH));
+        return JSON.parse(talkerFile);
+    } catch (error) {
+        return null;
+    }
+}
+
+const getAllTalkers = async () => {
+    const allTalkers = await readTalkerFile();
+    return allTalkers; 
+}
+
+module.exports = { readTalkerFile, getAllTalkers }
