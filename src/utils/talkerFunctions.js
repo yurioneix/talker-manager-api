@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
-const TALKER_PATH = '../talker.json'
+
+const TALKER_PATH = '../talker.json';
 
 const readTalkerFile = async () => {
     try {
@@ -9,12 +10,12 @@ const readTalkerFile = async () => {
     } catch (error) {
         return null;
     }
-}
+};
 
 const getAllTalkers = async () => {
     const allTalkers = await readTalkerFile();
     return allTalkers; 
-}
+};
 
 const getTalkerByID = async (id) => {
     const talkers = await readTalkerFile();
@@ -23,4 +24,4 @@ const getTalkerByID = async (id) => {
     return findTalkerByID;
 }; 
 
-module.exports = { readTalkerFile, getAllTalkers, getTalkerByID }
+module.exports = { readTalkerFile, getAllTalkers, getTalkerByID };

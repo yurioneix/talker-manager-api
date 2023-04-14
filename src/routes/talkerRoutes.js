@@ -14,9 +14,10 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
     const findTalkerByID = await getTalkerByID(id);
 
-    if(!findTalkerByID) return res.status(404).json({message: "Pessoa palestrante não encontrada"});
-
+    if (!findTalkerByID) {
+        return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+    }
     return res.status(200).json(findTalkerByID);
 });
 
-module.exports = router
+module.exports = router;
