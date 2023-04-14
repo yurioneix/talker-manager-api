@@ -4,11 +4,8 @@ const crypto = require('crypto');
 
 const TALKER_PATH = '../talker.json';
 
-const generateToken = () => {
-    return crypto.randomBytes(8).toString('hex');
-  };
+const generateToken = () => crypto.randomBytes(8).toString('hex');
   
-
 const readTalkerFile = async () => {
     try {
         const talkerFile = await fs.readFile(path.resolve(__dirname, TALKER_PATH));

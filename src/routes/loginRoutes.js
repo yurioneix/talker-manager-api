@@ -1,5 +1,6 @@
 const express = require('express');
-const { generateToken } = require('../utils/talkerFunctions')
+const { generateToken } = require('../utils/talkerFunctions');
+
 const router = express.Router();
 
 router.post('/', async (req, res) => {
