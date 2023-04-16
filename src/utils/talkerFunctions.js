@@ -28,19 +28,6 @@ const getTalkerByID = async (id) => {
     return findTalkerByID;
 }; 
 
-const newTalker = async (talker) => {
-    // const talkers = await readTalkerFile();
-    // console.log('palestrantes', talkers);
-    // console.log('palestrante do parametro', talker);
-
-    // // const newTalker = { id: talkers[talkers.length -1].id + 1, ...talker};
-    // console.log('novo palestrante', newTalker);
-    
-    // // talkers.push(newTalker);
-    // console.log('palestrantes atualizados', talkers);
-
-
-    return await fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
-}
+const newTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
 
 module.exports = { readTalkerFile, getAllTalkers, getTalkerByID, generateToken, newTalker };

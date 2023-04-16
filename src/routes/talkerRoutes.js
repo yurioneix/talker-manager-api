@@ -1,5 +1,10 @@
 const express = require('express');
-const { getAllTalkers, getTalkerByID, newTalker, readTalkerFile } = require('../utils/talkerFunctions');
+const { 
+    getAllTalkers, 
+    getTalkerByID, 
+    newTalker, 
+    readTalkerFile, 
+} = require('../utils/talkerFunctions');
 const validateToken = require('../middlewares/validateToken');
 const validateName = require('../middlewares/validateName');
 const validateAge = require('../middlewares/validateAge');
@@ -38,14 +43,14 @@ router.post(
     const talker = req.body;
     const talkers = await readTalkerFile();
     // console.log(talkers);
-    const updatedTalkers = { id: talkers[talkers.length -1].id + 1, ...talker};
+    const updatedTalkers = { id: talkers[talkers.length - 1].id + 1, ...talker };
     talkers.push(updatedTalkers);
     console.log('atualizado', talkers);
-
 
     await newTalker(talkers);
 
     return res.status(201).json(updatedTalkers);
-});
+},
+);
 
 module.exports = router;
