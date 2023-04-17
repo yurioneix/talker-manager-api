@@ -79,4 +79,16 @@ router.put('/:id',
     return res.status(200).json(updatedTalker);
 });
 
+router.delete('/:id', validateToken, async (req, res) => {
+    const id = Number(req.params.id);
+    const allTalkers = await getAllTalkers();
+
+    const filteredTalkers = allTalkers.filter((talker) => talker.id !== id);
+    console.log('talkers atualizados', filteredTalkers);
+    
+    await writeTalker(filteredTalkers);
+
+    return res.status(204);
+});
+
 module.exports = router;
