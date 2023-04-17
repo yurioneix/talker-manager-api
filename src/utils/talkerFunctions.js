@@ -28,6 +28,21 @@ const getTalkerByID = async (id) => {
     return findTalkerByID;
 }; 
 
+const getTalkerByName = async (name) => {
+    const talkers = await readTalkerFile();
+
+    const filterTalkerByName = talkers.filter((talker) => talker.name.startsWith(name));
+
+    return filterTalkerByName;
+};
+
 const writeTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
 
-module.exports = { readTalkerFile, getAllTalkers, getTalkerByID, generateToken, writeTalker };
+module.exports = { 
+    readTalkerFile, 
+    getAllTalkers, 
+    getTalkerByID, 
+    generateToken, 
+    writeTalker, 
+    getTalkerByName, 
+};

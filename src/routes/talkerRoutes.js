@@ -3,7 +3,8 @@ const {
     getAllTalkers, 
     getTalkerByID, 
     writeTalker, 
-    readTalkerFile, 
+    readTalkerFile,
+    getTalkerByName, 
 } = require('../utils/talkerFunctions');
 const validateToken = require('../middlewares/validateToken');
 const validateName = require('../middlewares/validateName');
@@ -13,6 +14,24 @@ const validateWatchedAt = require('../middlewares/validateWatchedAt');
 const validateRate = require('../middlewares/validateRate');
 
 const router = express.Router();
+
+router.get('/search', validateToken, async (req, res) => {
+    const { q } = req.query;
+
+    const allTalkers = await getAllTalkers();
+
+    if (q === undefined) {
+        return res.status(200).json(allTalkers);
+    }
+
+    const filteredTalkers = await getTalkerByName(q);
+
+    if (!filteredTalkers) {
+        return res.status(200).json([]);
+    }
+
+    return res.status(200).json(filteredTalkers);
+});
 
 router.get('/', async (_req, res) => {
     const talkers = await getAllTalkers();
@@ -88,7 +107,7 @@ router.delete('/:id', validateToken, async (req, res) => {
     
     await writeTalker(filteredTalkers);
 
-    return res.status(204);
+    return res.status(204).end();
 });
 
 module.exports = router;
