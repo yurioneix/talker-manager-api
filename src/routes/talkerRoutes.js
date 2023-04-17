@@ -2,7 +2,7 @@ const express = require('express');
 const { 
     getAllTalkers, 
     getTalkerByID, 
-    newTalker, 
+    writeTalker, 
     readTalkerFile, 
 } = require('../utils/talkerFunctions');
 const validateToken = require('../middlewares/validateToken');
@@ -42,15 +42,41 @@ router.post(
     async (req, res) => {
     const talker = req.body;
     const talkers = await readTalkerFile();
-    // console.log(talkers);
+
     const updatedTalkers = { id: talkers[talkers.length - 1].id + 1, ...talker };
     talkers.push(updatedTalkers);
-    console.log('atualizado', talkers);
 
-    await newTalker(talkers);
+    await writeTalker(talkers);
 
     return res.status(201).json(updatedTalkers);
 },
 );
+
+router.put('/:id', 
+    validateToken, 
+    validateName, 
+    validateAge, 
+    validateTalk, 
+    validateWatchedAt, 
+    validateRate, 
+    async (req, res) => {
+    const id = Number(req.params.id);
+    const allTalkers = await getAllTalkers();
+    const talkerToUpdate = await getTalkerByID(id);
+
+    if (!talkerToUpdate) {
+        return res.status(404).json({
+            message: 'Pessoa palestrante não encontrada',
+          });
+    }
+
+    const indexOfTalkerToUpdate = allTalkers.indexOf(talkerToUpdate);
+    const updatedTalker = { id, ...req.body };
+
+    allTalkers.splice(indexOfTalkerToUpdate, 1, updatedTalker);
+    await writeTalker(allTalkers);
+
+    return res.status(200).json(updatedTalker);
+});
 
 module.exports = router;

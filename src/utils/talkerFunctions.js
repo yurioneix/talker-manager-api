@@ -28,6 +28,6 @@ const getTalkerByID = async (id) => {
     return findTalkerByID;
 }; 
 
-const newTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
+const writeTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
 
-module.exports = { readTalkerFile, getAllTalkers, getTalkerByID, generateToken, newTalker };
+module.exports = { readTalkerFile, getAllTalkers, getTalkerByID, generateToken, writeTalker };
