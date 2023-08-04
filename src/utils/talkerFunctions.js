@@ -44,8 +44,7 @@ const getTalkerByRate = async (rate) => {
     const filterTalkerByRate = talkers.filter((talker) => talker.talk.rate === rate);
 
     return filterTalkerByRate;
-}
-
+};
 
 module.exports = { 
     readTalkerFile, 

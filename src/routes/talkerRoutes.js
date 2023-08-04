@@ -21,7 +21,7 @@ router.get('/search', validateToken, validateRateByQuery, async (req, res) => {
     const { q, rate } = req.query;
     // console.log('rate', rate);
     // console.log('q', q);
-    if(q || rate) {
+    if (q || rate) {
         const filteredTalkersByName = await getTalkerByName(q);
         // console.log('filtrados por nome', filteredTalkersByName);
         const filteredTalkerByNameAndRate = filteredTalkersByName
@@ -29,7 +29,7 @@ router.get('/search', validateToken, validateRateByQuery, async (req, res) => {
             const filter = await getTalkerByRate(Number(talker.rate));
             // console.log('filtrados por nome e rate', filter);
             return filter;
-          })
+          });
         
         return res.status(200).json(filteredTalkerByNameAndRate);
     }
