@@ -184,6 +184,80 @@ O endpoint deve ser capaz de adicionar uma nova pessoa palestrante ao seu arquiv
 
 </details>
 
+<br>
+
+- <strong>DELETE `/talker/:id`</strong>
+
+<details>
+  <summary>O endpoint deve deletar uma pessoa palestrante com base no id da rota. Devendo retornar o <code>status 204</code>, sem conteúdo na resposta.</summary><br />
+
+- A requisição deve ter o token de autenticação nos headers, no campo `authorization`.
+
+  - Caso o token não seja encontrado retorne um código de `status 401`, com o seguinte corpo:
+
+      ```json
+      {
+        "message": "Token não encontrado"
+      }
+      ```
+
+  - Caso o token seja inválido retorne um código de `status 401`, com o seguinte corpo:
+
+      ```json
+      {
+        "message": "Token inválido"
+      }
+      ```
+</details>
+
+<br>
+
+- <strong>GET `/talker/search`</strong>
+
+<details>
+   <summary>O endpoint deve retornar um array de palestrantes que contenham em seu nome o termo pesquisado no queryParam `q` da URL. Devendo retornar o <code>status 200</code>, com o seguinte corpo:</summary>
+<br>
+Exemplo de busca: <code>/talker/search?q=Da</code>
+
+   ```json
+    [
+      {
+        "id": 1,
+        "name": "Danielle Santos",
+        "age": 56,
+        "talk": {
+          "watchedAt": "22/10/2019",
+          "rate": 5,
+        },
+      }
+    ]
+   ```
+
+- A requisição deve ter o token de autenticação nos headers, no campo `authorization`.
+
+ Caso o token não seja encontrado retorna um código de `status 401`, com o seguinte corpo:
+
+   ```json
+      {
+        "message": "Token não encontrado"
+      }
+   ```
+
+  - Caso o token seja inválido retorna um código de `status 401`, com o seguinte corpo:
+
+    ```json
+      {
+        "message": "Token inválido"
+      }
+    ```
+
+- Caso `searchTerm` não seja informado ou esteja vazio, o endpoint deverá retornar um array com todas as pessoas palestrantes cadastradas, assim como no endpoint GET `/talker`, com um <code>status 200</code>.
+
+- Caso nenhuma pessoa palestrante satisfaça a busca, o endpoint deve retornar o <code>status 200</code> e um array vazio.
+
+</details>
+
+
 ## Pastas/arquivos desenvolvidos por mim
 
 ```bash
