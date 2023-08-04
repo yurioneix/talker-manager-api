@@ -1,10 +1,196 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Talker Manager API
+
+Projeto desenvolvido no módulo de Backend da Trybe, onde foi criado uma aplicação de cadastro de talkers (palestrantes) em que será possível cadastrar, visualizar, pesquisar, editar e excluir informações (CRUD).
+
+## Instalação
+
+Em um terminal, inicie os containers
+```bash
+   docker-compose up -d
+```
+
+Acesse o terminal do container
+```bash
+  docker exec -it talker_manager bash  
+```
+
+Para rodar a aplicacao:
+```bash
+  npm start
+```
+
+Ou para iniciar com live-reload
+```bash
+  npm run dev
+```
+
+## Endpoints
+- <strong>GET `/talker` </strong>
+
+<details>
+  <summary>Retorna todos os palestrantes com o <code>status 200</code>:</summary><br>
+
+  ```json
+  [
+    {
+      "name": "Henrique Albuquerque",
+      "age": 62,
+      "id": 1,
+      "talk": { "watchedAt": "23/10/2020", "rate": 5 }
+    },
+    {
+      "name": "Heloísa Albuquerque",
+      "age": 67,
+      "id": 2,
+      "talk": { "watchedAt": "23/10/2020", "rate": 5 }
+    },
+    {
+      "name": "Ricardo Xavier Filho",
+      "age": 33,
+      "id": 3,
+      "talk": { "watchedAt": "23/10/2020", "rate": 5 }
+    },
+    {
+      "name": "Marcos Costa",
+      "age": 24,
+      "id": 4,
+      "talk": { "watchedAt": "23/10/2020", "rate": 5 }
+    }
+  ]
+```
+</details>
+
+<details>
+  <summary>Caso não haja palestrantes, retorna <code>status 200</code> com um array vazio:</summary><br>
+
+  ```json
+[]
+  ```
+</details>
+
+<br>
+
+- <strong> GET `/talker/:id` </strong>
+
+<details>
+  <summary>A requisição retorna o <code>status 200</code> e uma pessoa palestrante com base no <code>id</code> da rota. Por exemplo, ao fazer uma requisição <code>/talker/1</code>, a resposta deve ser:</summary><br />
+
+  ```json
+  {
+    "name": "Henrique Albuquerque",
+    "age": 62,
+    "id": 1,
+    "talk": { "watchedAt": "23/10/2020", "rate": 5 }
+  }
+  ```
+
+</details>
+
+<details>
+  <summary>Caso não seja encontrada uma pessoa palestrante com base no <code>id</code> da rota, a requisição retorna o <code>status 404</code> com o seguinte corpo:</summary><br />
+  
+  ```json
+  {
+    "message": "Pessoa palestrante não encontrada"
+  }
+  ```
+
+</details>
+
+<br>
+
+- <strong> POST `/login` </strong>
+
+  O endpoint deverá receber no corpo da requisição os campos `email` e `password` e retornar um token aleatório de 16 caracteres.
+
+<details>
+  <summary>O corpo da requisição deverá ter o seguinte formato:</summary><br />
+
+  ```json
+  {
+    "email": "email@email.com",
+    "password": "123456"
+  }
+  ```
+
+</details>
+
+<details>
+  <summary> O endpoint deverá retornar um código de <code>status 200</code> com o token gerado e o seguinte corpo: </summary><br />
+  
+  ```json
+  {
+    "token": "7mqaVRXJSp886CGr"
+  }
+  ```
+  
+</details>
+
+<br>
+
+- <strong>POST `/talker`</strong>
+  
+O endpoint deve ser capaz de adicionar uma nova pessoa palestrante ao seu arquivo.
+
+<details>
+  
+  <summary>O corpo da requisição deverá ter o seguinte formato:</summary><br />
+
+  ```json
+  {
+    "name": "Danielle Santos",
+    "age": 56,
+    "talk": {
+      "watchedAt": "22/10/2019",
+      "rate": 5
+    }
+  }
+  ```
+- Todos os campos são obrigatórios e respeitam suas respectivas validações
+  
+- A requisição deve ter o token de autenticação nos headers, no campo `authorization`.
+
+  - Caso o token não seja encontrado retorne um código de `status 401`, com o seguinte corpo:
+
+    ```json
+    {
+      "message": "Token não encontrado"
+    }
+    ```
+
+  - Caso o token seja inválido retorne um código de `status 401`, com o seguinte corpo:
+
+    ```json
+    {
+      "message": "Token inválido"
+    }
+    ```
+  
+- Caso esteja tudo certo, retorne o `status 201`  e a pessoa cadastrada.
+  
+- O endpoint deve retornar o `status 201` e a pessoa palestrante que foi cadastrada, da seguinte forma:
+
+  ```json
+  {
+    "id": 1,
+    "name": "Danielle Santos",
+    "age": 56,
+    "talk": {
+      "watchedAt": "22/10/2019",
+      "rate": 5
+    }
+  }
+  ```
+
+</details>
+
+## Pastas/arquivos desenvolvidos por mim
+
+```bash
+    src/middlewares
+    src/routes
+    src/utils
+    index.js
+    src/App.js
+    src/pages
+```
