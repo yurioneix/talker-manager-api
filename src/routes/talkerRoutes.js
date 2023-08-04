@@ -4,7 +4,8 @@ const {
     getTalkerByID, 
     writeTalker, 
     readTalkerFile,
-    getTalkerByName, 
+    getTalkerByName,
+    getTalkerByRate, 
 } = require('../utils/talkerFunctions');
 const validateToken = require('../middlewares/validateToken');
 const validateName = require('../middlewares/validateName');
@@ -12,8 +13,30 @@ const validateAge = require('../middlewares/validateAge');
 const validateTalk = require('../middlewares/validateTalk');
 const validateWatchedAt = require('../middlewares/validateWatchedAt');
 const validateRate = require('../middlewares/validateRate');
+const validateRateByQuery = require('../middlewares/validateRateByQuery');
 
 const router = express.Router();
+
+router.get('/search', validateToken, validateRateByQuery, async (req, res) => {
+    const { q, rate } = req.query;
+    // console.log('rate', rate);
+    // console.log('q', q);
+    if(q || rate) {
+        const filteredTalkersByName = await getTalkerByName(q);
+        // console.log('filtrados por nome', filteredTalkersByName);
+        const filteredTalkerByNameAndRate = filteredTalkersByName
+          .filter(async (talker) => {
+            const filter = await getTalkerByRate(Number(talker.rate));
+            // console.log('filtrados por nome e rate', filter);
+            return filter;
+          })
+        
+        return res.status(200).json(filteredTalkerByNameAndRate);
+    }
+
+    const filteredTalkersByRate = await getTalkerByRate(Number(rate));
+    return res.status(200).json(filteredTalkersByRate);
+});
 
 router.get('/search', validateToken, async (req, res) => {
     const { q } = req.query;
@@ -24,13 +47,13 @@ router.get('/search', validateToken, async (req, res) => {
         return res.status(200).json(allTalkers);
     }
 
-    const filteredTalkers = await getTalkerByName(q);
+    const filteredTalkersByName = await getTalkerByName(q);
 
-    if (!filteredTalkers) {
+    if (!filteredTalkersByName) {
         return res.status(200).json([]);
     }
 
-    return res.status(200).json(filteredTalkers);
+    return res.status(200).json(filteredTalkersByName);
 });
 
 router.get('/', async (_req, res) => {

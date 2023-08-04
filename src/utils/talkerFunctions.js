@@ -16,6 +16,8 @@ const readTalkerFile = async () => {
     }
 };
 
+const writeTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
+
 const getAllTalkers = async () => {
     const allTalkers = await readTalkerFile();
     return allTalkers; 
@@ -36,7 +38,14 @@ const getTalkerByName = async (name) => {
     return filterTalkerByName;
 };
 
-const writeTalker = async (talker) => fs.writeFile(TALKER_PATH_WRITE, JSON.stringify(talker));
+const getTalkerByRate = async (rate) => {
+    const talkers = await readTalkerFile();
+
+    const filterTalkerByRate = talkers.filter((talker) => talker.talk.rate === rate);
+
+    return filterTalkerByRate;
+}
+
 
 module.exports = { 
     readTalkerFile, 
@@ -44,5 +53,6 @@ module.exports = {
     getTalkerByID, 
     generateToken, 
     writeTalker, 
-    getTalkerByName, 
+    getTalkerByName,
+    getTalkerByRate, 
 };
